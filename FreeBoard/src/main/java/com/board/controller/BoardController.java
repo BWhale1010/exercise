@@ -2,6 +2,8 @@ package com.board.controller;
 
 import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.board.dao.BoardDAO;
 import com.board.service.BoardService;
 
 @Controller
@@ -77,11 +82,11 @@ public class BoardController {
 	
 	@GetMapping(value="mailChk.ajax")
 	@ResponseBody
-	public String mailChk(String email) {
-		
+	public String mailChk(String email, String path) {
+		logger.info("요청 jsp :"+path);
 		logger.info("요청 이메일 컨트롤러 : "+email);
 		
-		return service.mailChk(email);
+		return service.mailChk(email, path);
 	}
 	
 	@PostMapping(value="join.ajax")
@@ -95,5 +100,48 @@ public class BoardController {
 		
 		return map;
 	}
+	
+	@GetMapping(value="login.go")
+	public String loginForm() {
+		
+		return "login";
+	}
+	
+	@PostMapping(value="login.do")
+	public ModelAndView login(@RequestParam String id, String pw, RedirectAttributes rAttr) {
+		
+		logger.info("로그인 아이디 : "+id);
+				
+		return service.login(id,pw,rAttr);
+	}
+	
+	@GetMapping(value="accountFind.go")
+	public String accountFind() {
+		
+		return "accountFind";
+	}
+	
+	
+	@PostMapping(value="idFind.go")
+	public HashMap<String, Object> idFind(@RequestParam String email, RedirectAttributes rAttr) {
+		
+		logger.info("아이디 찾기 이메일 : "+email);
+		
+		return service.idFind(email, rAttr);
+	}
+	
+	@PostMapping(value="pwReset.ajax")
+	@ResponseBody
+	public HashMap<String, Object> pwReset(@RequestParam String pw, String id){
+		logger.info("비밀번호 변경");
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		service.pwReset(pw, id);
+		
+		
+		return map;
+	}
+	
+	
+
 
 }

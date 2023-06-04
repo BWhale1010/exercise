@@ -57,54 +57,15 @@
 		
 		<br>
 		<hr>
-		<br>
-
-				
-<!-- 		<li>선택 입력</li> -->
-
-
-		
-<!-- 		<li> -->
-<!-- 			<label for="userName">이름</label> -->
-<!-- 			<input type="text" id="userName" placeholder="이름을 입력해 주세요"> -->
-<!-- 		</li>		 -->
-		
-<!-- 		<li> -->
-<!-- 			<label for="gender">성별</label> -->
-<!-- 			<input type="radio" name="gender" value="남"> 남자 -->
-<!-- 			<input type="radio" name="gender" value="여"> 여자 -->
-<!-- 		</li>		 -->
-		
-<!-- 		<li> -->
-<!-- 			<label for="age">나이</label> -->
-<!-- 			<input type="text" id="age" placeholder="나이를 입력해 주세요"> -->
-<!-- 		</li> -->
-		
-<!-- 		<li> -->
-<!-- 			<label for="address">주소</label> -->
-<!-- 			<input type="text" id="postcode" placeholder="우편번호를 입력해 주세요"> -->
-<!-- 		</li>		 -->
-		
-<!-- 		<li> -->
-<!-- 			<label for="address"></label> -->
-<!-- 			<input type="text" id="roadAddr" placeholder="도로명을 입력해 주세요"> -->
-<!-- 		</li> -->
-		
-<!-- 		<li> -->
-<!-- 			<label for="address"></label> -->
-<!-- 			<input type="text" id="detailAddr" placeholder="상세주소를 입력해 주세요"> -->
-<!-- 		</li>		 -->
-		
-<!-- 		<li> -->
-<!-- 			<label for="phone">전화번호</label> -->
-<!-- 			<input type="tel" id="phone" placeholder="전화번호를 입력해 주세요"> -->
-<!-- 		</li>		 -->
+		<br>				
 		
 		<li id="joinLi">
 			<input id="joinBtn" type="button" value="회원가입">
 		</li>
 	
 	</ul>
+	
+
 
 
 </div>
@@ -116,6 +77,7 @@ var idOverChk = false; // 아이디 중복검사 유무 확인용 변수
 var emailOverChk = false; // 이메일 중복 확인
 var emailChk = false; // 이메일 발송 유무 확인용 변수
 var nickOver = false; // 닉네임 중복확인 변수
+var pwReg = false;
 
 
 // 회원 가입 버튼 눌렀을 경우
@@ -335,11 +297,13 @@ function emailOver(){
 						// 이메일 발송
 						$('#mailChkBtn').click(function(){
 							var emailChkInput = $('.emailChkInput'); 
+							var path = window.location.pathname;
+							console.log("path : "+path);
 							
 							$.ajax({
 								type: 'get',
 								url : 'mailChk.ajax',
-								data : {'email':email},
+								data : {'email':email, 'path':path},
 								dataType : 'JSON',
 								success: function(data){
 									console.log(data);
@@ -406,9 +370,10 @@ $(function(){
 				$('.msg2').html("비밀번호는 6~10자의 영문자 또는 숫자로만 입력해 주세요");
 			}else{
 				$('.msg2').html('<b style="color:blue">사용가능한 비밀번호입니다</b>');
+				pwReg = true;
 			}			
 		}else if(cid == "pwCheck"){
-			if(cv !== $('#pw').val()){
+			if(cv != $('#pw').val()){
 				$('.msg3').html("비밀번호가 불일치 합니다");
 			}else{
 				$('.msg3').html('<b style="color:blue">비밀번호가 일치 합니다</b>');

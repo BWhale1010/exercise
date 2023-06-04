@@ -15,4 +15,10 @@ public interface BoardDAO {
 
 	int join(HashMap<String, Object> params);
 
+	String enc_pw(String id);
+
+	String idFind(String email);
+
+	void pwReset(String enc_pw, String id);
+
 }

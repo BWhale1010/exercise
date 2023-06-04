@@ -21,6 +21,18 @@
 		insert into member (id,pw,nickName,email) values(#{id},#{pw},#{nickName},#{email})
 	</insert>
 	
+	<select id="enc_pw" resultType="String" parameterType="String">
+		select pw from member where id = #{id}
+	</select>
+	
+	<select id="idFind" resultType="String" parameterType="String">
+		select id from member where email = #{email}
+	</select>
+	
+	<update id="pwReset" parameterType="String">
+		update member set pw = #{enc_pw} where id = #{id}
+	</update>
+	
 </mapper>
 
 

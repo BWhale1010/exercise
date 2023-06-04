@@ -14,5 +14,12 @@
 <a href="join.go">회원가입</a>
 
 </body>
-<script></script>
+<script>
+var msg = "${msg}";
+
+if(msg != "" && msg != null){
+	alert(msg);
+}
+
+</script>
 </html>
